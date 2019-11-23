@@ -1,0 +1,256 @@
+#%RAML 1.0
+title: Contact Management API
+version: 1.0
+baseUri: http://localhost:9096/contactManagementAPI/1.0
+protocols : [HTTP]
+
+traits:
+  x-headers-required:
+    headers:
+      x-token:
+        type: string
+        required: true
+        example : '7CwpkrYbahgkjdkgfjksd'
+
+/contacts:
+  displayName : Add Contact 
+  post:
+    description: Add  Contact details
+    is: [x-headers-required]
+    body:
+      application/json:
+        example: !include examples/addContactRequest.json
+    responses:
+      200:
+        body:
+         application/json:
+          example: !include examples/addContactResponseSuccess.json
+      400:
+        body:
+         application/json:
+          example: !include examples/addContactResponseFailure.json
+        
+      500:
+        body:
+         application/json:
+          example: !include examples/addContactResponseFailure.json
+
+          
+  /{customerId}:
+    get:
+      description: Get  Contact details
+      is: [x-headers-required]
+      responses:
+        200:
+          body:
+           application/json: 
+            example: !include examples/getContactResponseSuccess.json
+        400:
+          body:
+           application/json:
+            example: !include examples/getContactResponseFailure.json
+          
+        500:
+          body:
+           application/json:
+            example: !include examples/getContactResponseFailure.json 
+          
+    put:
+      description: Update  Contact details
+      is: [x-headers-required]
+      body:
+        application/json:
+          example: !include examples/updateContactRequest.json
+      responses:
+        200:
+          body:
+           application/json:
+            example: !include examples/updateContactResponseSuccess.json
+        400:
+          body:
+           application/json:
+            example: !include examples/updateContactResponseFailure.json
+          
+        500:
+          body:
+           application/json:
+            example: !include examples/updateContactResponseFailure.json  
+    delete:
+      description: Delete  Contact details
+      is: [x-headers-required]
+      responses:
+        200:
+          body:
+           application/json:
+            example: !include examples/deleteContactResponseSuccess.json
+        400:
+          body:
+           application/json:
+            example: !include examples/deleteContactResponseFailure.json
+          
+        500:
+          body:
+           application/json:
+            example: !include examples/deleteContactResponseFailure.json  
+  /addresses:
+    displayName : Add Address 
+    post:
+      description: Add  Address details
+      is: [x-headers-required]
+      body:
+        application/json:
+          example: !include examples/addAddressRequest.json
+      responses:
+        200:
+          body:
+           application/json:
+            example: !include examples/addAddressResponseSuccess.json
+        400:
+          body:
+           application/json:
+            example: !include examples/addAddressResponseFailure.json
+          
+        500:
+          body:
+           application/json:
+            example: !include examples/addAddressResponseFailure.json
+  
+            
+    /{addressType}:
+      get:
+        description: Get  Address details
+        is: [x-headers-required]
+        responses:
+          200:
+            body:
+             application/json: 
+              example: !include examples/getAddressResponseSuccess.json
+          400:
+            body:
+             application/json:
+              example: !include examples/getAddressResponseFailure.json
+            
+          500:
+            body:
+             application/json:
+              example: !include examples/getAddressResponseFailure.json 
+            
+      put:
+        description: Update  Address details
+        is: [x-headers-required]
+        body:
+          application/json:
+            example: !include examples/updateAddressRequest.json
+        responses:
+          200:
+            body:
+             application/json:
+              example: !include examples/updateAddressResponseSuccess.json
+          400:
+            body:
+             application/json:
+              example: !include examples/updateAddressResponseFailure.json
+            
+          500:
+            body:
+             application/json:
+              example: !include examples/updateAddressResponseFailure.json  
+      delete:
+        description: Delete  Address details
+        is: [x-headers-required]
+        responses:
+          200:
+            body:
+             application/json:
+              example: !include examples/deleteAddressResponseSuccess.json
+          400:
+            body:
+             application/json:
+              example: !include examples/deleteAddressResponseFailure.json
+            
+          500:
+            body:
+             application/json:
+              example: !include examples/deleteAddressResponseFailure.json  
+                   
+  /communicationes:
+    displayName : Add Communication 
+    post:
+      description: Add  Communication details
+      is: [x-headers-required]
+      body:
+        application/json:
+          example: !include examples/addCommunicationRequest.json
+      responses:
+        200:
+          body:
+           application/json:
+            example: !include examples/addCommunicationResponseSuccess.json
+        400:
+          body:
+           application/json:
+            example: !include examples/addCommunicationResponseFailure.json
+          
+        500:
+          body:
+           application/json:
+            example: !include examples/addCommunicationResponseFailure.json
+  
+            
+    /{communicationType}:
+      get:
+        description: Get  Communication details
+        is: [x-headers-required]
+        responses:
+          200:
+            body:
+             application/json: 
+              example: !include examples/getCommunicationResponseSuccess.json
+          400:
+            body:
+             application/json:
+              example: !include examples/getCommunicationResponseFailure.json
+            
+          500:
+            body:
+             application/json:
+              example: !include examples/getCommunicationResponseFailure.json 
+            
+      put:
+        description: Update  Communication details
+        is: [x-headers-required]
+        body:
+          application/json:
+            example: !include examples/updateCommunicationRequest.json
+        responses:
+          200:
+            body:
+             application/json:
+              example: !include examples/updateCommunicationResponseSuccess.json
+          400:
+            body:
+             application/json:
+              example: !include examples/updateCommunicationResponseFailure.json
+            
+          500:
+            body:
+             application/json:
+              example: !include examples/updateCommunicationResponseFailure.json  
+      delete:
+        description: Delete  Communication details
+        is: [x-headers-required]
+        responses:
+          200:
+            body:
+             application/json:
+              example: !include examples/deleteCommunicationResponseSuccess.json
+          400:
+            body:
+             application/json:
+              example: !include examples/deleteCommunicationResponseFailure.json
+            
+          500:
+            body:
+             application/json:
+              example: !include examples/deleteCommunicationResponseFailure.json  
+                   

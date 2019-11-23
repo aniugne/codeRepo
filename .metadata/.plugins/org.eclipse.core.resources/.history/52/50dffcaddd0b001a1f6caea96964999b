@@ -1,0 +1,13 @@
+{
+	"Communication": [
+		{
+			"type": "email",
+			"value": "bfe@sample.com",
+			"preferred": "true"
+		},
+		{
+			"type": "cell",
+			"value": "304-555-8282"
+		}
+	]
+}

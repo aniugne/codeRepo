@@ -1,0 +1,5 @@
+#Tue Nov 19 17:48:01 EST 2019
+encoding=UTF-8
+domain=default
+redeployment.enabled=true
+config.resources=workers.xml,api.xml,globals.xml,db-impl.xml

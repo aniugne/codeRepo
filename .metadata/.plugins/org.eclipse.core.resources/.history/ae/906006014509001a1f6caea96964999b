@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+	<flow name="WRK_addContact">
+		<byte-array-to-string-transformer
+			doc:name="Byte Array to Object" />
+		<json:object-to-json-transformer
+			doc:name="Object to JSON" />
+		<logger level="INFO" doc:name="Logger"
+			message="Incoming payload in #[flow.name] is #[payload]" />
+
+		<set-variable value="#[payload]" doc:name="Set Variable"
+			variableName="requestPayload" />
+
+		<set-variable variableName="schemaName" doc:name="Set Variable"
+			value="addContactRequest-schema.json" />
+
+		<component class="com.customer.validator.RequestValidator"
+			doc:name="RequestValidator" />
+		<choice doc:name="Choice">
+			<when expression="#[payload == 'empty' || payload == '']">
+				<logger level="INFO" doc:name="Logger" message="Schema validation successful." />
+				<set-payload value="#[flowVars.requestPayload]"
+					doc:name="Set Payload" mimeType="application/json" />
+				<dw:transform-message doc:name="Transform Message">
+					<dw:set-payload><![CDATA[%dw 1.0
+%input payload application/json
+%output application/json
+---
+{
+	"customer": {
+		"firstName": payload.Identification.FirstName,
+		"lastName": payload.Identification.LastName,
+		"dateOfBirth": payload.Identification.DOB  as :localdate {format: "MM/dd/YYYY"}  as :localdate {format: "YYYY-MM-dd"}  as :string,
+		"gender": payload.Identification.Gender,
+		"title": payload.Identification.Title
+	},
+	"addresses":  payload.Address default []  map ((address, index) -> {
+		"type": address.'type',
+		"addressLine1": address.number,
+		"addressLine2":address.Unit,
+		"street": address.street,
+		"city": address.City,
+		"state": address.State,
+		"zipCode": address.zipcode
+	}),
+	"communication":  payload.Communication default [] map ((communication,index) ->{
+			"type": communication.'type',
+			"value": communication.value,
+	  		"preferred" : communication.preferred
+		})
+}]]></dw:set-payload>
+				</dw:transform-message>
+				<logger level="INFO" doc:name="Logger"
+					message="The transformed p[ayload is :#[payload]" />
+				<flow-ref doc:name="Flow Reference" name="DB_Customer_Insert" />
+
+				<dw:transform-message doc:name="Transform Message">
+                    <dw:input-payload doc:sample="sample_data/json.json"/>
+					<dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	Response: {
+		appName: "contact-management-prc-api",
+		"api-method": "addContact",
+		status: "success",
+		payload: {
+			customerId: 656522,
+			correlationId: "afw333-h78gbj-kjhs78",
+			message: "Contact added successfully."
+		}
+	}
+}]]></dw:set-payload>
+				</dw:transform-message>
+                <dw:transform-message doc:name="Transform Message">
+                    <dw:input-payload doc:sample="sample_data/json_1.json"/>
+                    <dw:set-payload><![CDATA[%dw 1.0
+%input payload application/json
+%output application/json
+---
+{
+	"customer": {
+		"firstName": payload.Identification.FirstName,
+		"lastName": payload.Identification.LastName,
+		"dateOfBirth": payload.Identification.DOB  as :localdate {format: "MM/dd/YYYY"}  as :localdate {format: "YYYY-MM-dd"}  as :string,
+		"gender": payload.Identification.Gender,
+		"title": payload.Identification.Title
+	},
+	"addresses":  payload.Address default []  map ((address, index) -> {
+		"type": address.'type',
+		"addressLine1": address.number,
+		"addressLine2":address.Unit,
+		"street": address.street,
+		"city": address.City,
+		"state": address.State,
+		"zipCode": address.zipcode
+	}),
+	"communication":  payload.Communication default [] map ((communication,index) ->{
+			"type": communication.'type',
+			"value": communication.value,
+	  		"preferred" : communication.preferred
+		})
+}]]></dw:set-payload>
+                </dw:transform-message>
+			</when>
+			<otherwise>
+				<set-variable value="Validation Error" doc:name="Set Variable"
+					variableName="errorType" />
+				<set-variable value="#[payload]" doc:name="Set Variable"
+					variableName="errorMessage" />
+				<logger level="INFO" doc:name="Logger"
+					message="Validation Failed !! #[payload]" />
+				<dw:transform-message doc:name="Transform Message">
+					<dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	"Response": {
+		"appName": "contact-management-prc-api",
+		"api-method": "addContact",
+		"status": "error",
+		"error": {
+			"correlationId": flowVars.correlationId,
+			"type": flowVars.errorType,
+			"message": flowVars.errorMessage
+		}
+	}
+}]]></dw:set-payload>
+				</dw:transform-message>
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="Logger"
+			message="The response from #[flow.name] is #[payload]" />
+	</flow>
+</mule>

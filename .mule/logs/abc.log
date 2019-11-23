@@ -1,0 +1,186 @@
+2019-11-17 05:23:58,067 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.launcher.application.DefaultMuleApplication - 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Initializing app 'abc'                                   +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2019-11-17 05:23:58,077 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.lifecycle.AbstractLifecycleManager - Initialising RegistryBroker
+2019-11-17 05:23:58,085 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.extension.internal.manager.DefaultExtensionManager - Starting discovery of extensions
+2019-11-17 05:23:58,108 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.extension.internal.manager.DefaultExtensionManager - Discovered 1 extensions
+2019-11-17 05:23:58,108 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.extension.internal.manager.DefaultExtensionManager - Registering extension validation (version 3.9)
+2019-11-17 05:23:58,111 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.config.spring.MuleArtifactContext - Refreshing org.mule.config.spring.MuleArtifactContext@656f5207: startup date [Sun Nov 17 05:23:58 EST 2019]; root of context hierarchy
+2019-11-17 05:23:59,081 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.config.spring.processors.NoDevkitInjectorProcessor - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-11-17 05:24:00,807 [Mule.app.deployer.monitor.1.thread.1] WARN  org.mule.module.ognl.expression.OgnlExpressionEvaluator - OGNL module is deprecated and will be removed in Mule 4.0. Use MEL expressions instead.
+2019-11-17 05:24:01,088 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.util.journal.TransactionJournal - Using files for tx logs /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-tx-log/tx1.log and /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-tx-log/tx2.log
+2019-11-17 05:24:01,106 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.util.journal.TransactionJournal - Using files for tx logs /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-xa-tx-log/tx1.log and /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-xa-tx-log/tx2.log
+2019-11-17 05:24:01,239 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.lifecycle.AbstractLifecycleManager - Initialising model: _muleSystemModel
+2019-11-17 05:24:02,078 [main] INFO  org.mule.module.launcher.application.DefaultMuleApplication - 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Initializing app 'abc'                                   +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2019-11-17 05:24:02,388 [main] INFO  org.mule.lifecycle.AbstractLifecycleManager - Initialising RegistryBroker
+2019-11-17 05:24:02,546 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.config.spring.SpringXmlConfigurationBuilder - Configured Mule using "org.mule.config.spring.SpringXmlConfigurationBuilder" with configuration resource(s): "[ConfigResource{resourceName='/Users/Jinson/AnypointStudio/workspace36/.mule/apps/abc/abc.xml'}]"
+2019-11-17 05:24:02,546 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.config.builders.AutoConfigurationBuilder - Configured Mule using "org.mule.config.builders.AutoConfigurationBuilder" with configuration resource(s): "[ConfigResource{resourceName='/Users/Jinson/AnypointStudio/workspace36/.mule/apps/abc/abc.xml'}]"
+2019-11-17 05:24:02,549 [Mule.app.deployer.monitor.1.thread.1] INFO  com.mulesoft.module.policies.lifecyle.GateKeeper - GateKeeper Mode: DISABLED
+2019-11-17 05:24:02,555 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.launcher.application.DefaultMuleApplication - 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Starting app 'abc'                                       +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2019-11-17 05:24:02,573 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.util.queue.QueueXaResourceManager - Starting ResourceManager
+2019-11-17 05:24:02,573 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.util.queue.QueueXaResourceManager - Started ResourceManager
+2019-11-17 05:24:02,598 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.lifecycle.AbstractLifecycleManager - Starting model: _muleSystemModel
+2019-11-17 05:24:02,679 [main] INFO  org.mule.module.extension.internal.manager.DefaultExtensionManager - Starting discovery of extensions
+2019-11-17 05:24:02,680 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.management.agent.WrapperManagerAgent - This JVM hasn't been launched by the wrapper, the agent will not run.
+2019-11-17 05:24:02,714 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.DefaultMuleContext - 
+**********************************************************************
+* Application: abc                                                   *
+* OS encoding: /, Mule encoding: UTF-8                               *
+*                                                                    *
+* Agents Running:                                                    *
+*   Batch module default engine                                      *
+*   JMX Agent                                                        *
+*   Wrapper Manager                                                  *
+**********************************************************************
+2019-11-17 05:24:03,009 [main] INFO  org.mule.module.extension.internal.manager.DefaultExtensionManager - Discovered 1 extensions
+2019-11-17 05:24:03,009 [main] INFO  org.mule.module.extension.internal.manager.DefaultExtensionManager - Registering extension validation (version 3.9)
+2019-11-17 05:24:03,091 [main] INFO  org.mule.config.spring.MuleArtifactContext - Refreshing org.mule.config.spring.MuleArtifactContext@32fe9d0a: startup date [Sun Nov 17 05:24:03 EST 2019]; root of context hierarchy
+2019-11-17 05:24:05,196 [main] INFO  org.mule.config.spring.processors.NoDevkitInjectorProcessor - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-11-17 05:24:06,890 [main] WARN  org.mule.module.ognl.expression.OgnlExpressionEvaluator - OGNL module is deprecated and will be removed in Mule 4.0. Use MEL expressions instead.
+2019-11-17 05:24:07,346 [main] INFO  org.mule.util.journal.TransactionJournal - Using files for tx logs /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-tx-log/tx1.log and /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-tx-log/tx2.log
+2019-11-17 05:24:07,407 [main] INFO  org.mule.util.journal.TransactionJournal - Using files for tx logs /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-xa-tx-log/tx1.log and /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-xa-tx-log/tx2.log
+2019-11-17 05:24:07,640 [main] INFO  org.mule.lifecycle.AbstractLifecycleManager - Initialising model: _muleSystemModel
+2019-11-17 05:24:08,144 [main] INFO  org.mule.config.spring.SpringXmlConfigurationBuilder - Configured Mule using "org.mule.config.spring.SpringXmlConfigurationBuilder" with configuration resource(s): "[ConfigResource{resourceName='/Users/Jinson/AnypointStudio/workspace36/.mule/apps/abc/abc.xml'}]"
+2019-11-17 05:24:08,144 [main] INFO  org.mule.config.builders.AutoConfigurationBuilder - Configured Mule using "org.mule.config.builders.AutoConfigurationBuilder" with configuration resource(s): "[ConfigResource{resourceName='/Users/Jinson/AnypointStudio/workspace36/.mule/apps/abc/abc.xml'}]"
+2019-11-17 05:24:08,146 [main] INFO  com.mulesoft.module.policies.lifecyle.GateKeeper - GateKeeper Mode: DISABLED
+2019-11-17 05:24:08,153 [main] INFO  org.mule.module.launcher.application.DefaultMuleApplication - 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Starting app 'abc'                                       +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2019-11-17 05:24:08,165 [main] INFO  org.mule.util.queue.QueueXaResourceManager - Starting ResourceManager
+2019-11-17 05:24:08,165 [main] INFO  org.mule.util.queue.QueueXaResourceManager - Started ResourceManager
+2019-11-17 05:24:08,180 [main] INFO  org.mule.lifecycle.AbstractLifecycleManager - Starting model: _muleSystemModel
+2019-11-17 05:24:08,254 [main] INFO  org.mule.module.management.agent.WrapperManagerAgent - This JVM hasn't been launched by the wrapper, the agent will not run.
+2019-11-17 05:24:08,294 [main] INFO  org.mule.DefaultMuleContext - 
+**********************************************************************
+* Application: abc                                                   *
+* OS encoding: /, Mule encoding: UTF-8                               *
+*                                                                    *
+* Agents Running:                                                    *
+*   Batch module default engine                                      *
+*   JMX Agent                                                        *
+*   Wrapper Manager                                                  *
+**********************************************************************
+2019-11-17 06:13:46,995 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.launcher.application.DefaultMuleApplication - 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Stopping app 'abc'                                       +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2019-11-17 06:13:46,995 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.launcher.application.DefaultMuleApplication - 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Stopping app 'abc'                                       +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2019-11-17 06:13:46,997 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.lifecycle.AbstractLifecycleManager - Stopping model: _muleSystemModel
+2019-11-17 06:13:47,001 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.util.queue.QueueXaResourceManager - Stopping ResourceManager
+2019-11-17 06:13:47,001 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.util.queue.QueueXaResourceManager - Stopped ResourceManager
+2019-11-17 06:13:47,008 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.launcher.application.DefaultMuleApplication - 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Disposing app 'abc'                                      +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2019-11-17 06:13:47,008 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.lifecycle.AbstractLifecycleManager - Disposing RegistryBroker
+2019-11-17 06:13:47,010 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.lifecycle.AbstractLifecycleManager - Disposing model: _muleSystemModel
+2019-11-17 06:13:46,998 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.lifecycle.AbstractLifecycleManager - Stopping model: _muleSystemModel
+2019-11-17 06:13:47,003 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.util.queue.QueueXaResourceManager - Stopping ResourceManager
+2019-11-17 06:13:47,003 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.util.queue.QueueXaResourceManager - Stopped ResourceManager
+2019-11-17 06:13:47,010 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.launcher.application.DefaultMuleApplication - 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Disposing app 'abc'                                      +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2019-11-17 06:13:47,013 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.lifecycle.AbstractLifecycleManager - Disposing RegistryBroker
+2019-11-17 06:13:47,015 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.lifecycle.AbstractLifecycleManager - Disposing model: _muleSystemModel
+2019-11-17 06:13:47,267 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.config.spring.MuleArtifactContext - Closing org.mule.config.spring.MuleArtifactContext@656f5207: startup date [Sun Nov 17 05:23:58 EST 2019]; root of context hierarchy
+2019-11-17 06:13:47,332 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.DefaultMuleContext - 
+**********************************************************************
+* Application "abc" shut down normally on: 11/17/19 6:13 AM          *
+* Up for: 0 days, 0 hours, 49 mins, 44.720 sec                       *
+**********************************************************************
+2019-11-17 06:13:47,355 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.config.spring.MuleArtifactContext - Closing org.mule.config.spring.MuleArtifactContext@32fe9d0a: startup date [Sun Nov 17 05:24:03 EST 2019]; root of context hierarchy
+2019-11-17 06:13:47,378 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.DefaultMuleContext - 
+**********************************************************************
+* Application "abc" shut down normally on: 11/17/19 6:13 AM          *
+* Up for: 0 days, 0 hours, 49 mins, 39.218 sec                       *
+**********************************************************************
+2019-11-17 07:33:31,813 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.launcher.application.DefaultMuleApplication - 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Initializing app 'abc'                                   +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2019-11-17 07:33:31,847 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.lifecycle.AbstractLifecycleManager - Initialising RegistryBroker
+2019-11-17 07:33:31,860 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.extension.internal.manager.DefaultExtensionManager - Starting discovery of extensions
+2019-11-17 07:33:31,899 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.extension.internal.manager.DefaultExtensionManager - Discovered 1 extensions
+2019-11-17 07:33:31,899 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.extension.internal.manager.DefaultExtensionManager - Registering extension validation (version 3.9)
+2019-11-17 07:33:31,905 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.config.spring.MuleArtifactContext - Refreshing org.mule.config.spring.MuleArtifactContext@24f70438: startup date [Sun Nov 17 07:33:31 EST 2019]; root of context hierarchy
+2019-11-17 07:33:32,553 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.config.spring.processors.NoDevkitInjectorProcessor - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-11-17 07:33:33,010 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.util.journal.TransactionJournal - Using files for tx logs /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-tx-log/tx1.log and /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-tx-log/tx2.log
+2019-11-17 07:33:33,011 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.util.journal.TransactionJournal - Using files for tx logs /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-xa-tx-log/tx1.log and /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-xa-tx-log/tx2.log
+2019-11-17 07:33:33,032 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.lifecycle.AbstractLifecycleManager - Initialising model: _muleSystemModel
+2019-11-17 07:33:33,038 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.construct.FlowConstructLifecycleManager - Initialising flow: abcFlow
+2019-11-17 07:33:33,038 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.exception.DefaultMessagingExceptionStrategy - Initialising exception listener: org.mule.exception.DefaultMessagingExceptionStrategy@49d94f8
+2019-11-17 07:33:33,091 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.processor.SedaStageLifecycleManager - Initialising service: abcFlow.stage1
+2019-11-17 07:33:33,297 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.config.spring.SpringXmlConfigurationBuilder - Configured Mule using "org.mule.config.spring.SpringXmlConfigurationBuilder" with configuration resource(s): "[ConfigResource{resourceName='/Users/Jinson/AnypointStudio/workspace36/.mule/apps/abc/abc.xml'}]"
+2019-11-17 07:33:33,297 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.config.builders.AutoConfigurationBuilder - Configured Mule using "org.mule.config.builders.AutoConfigurationBuilder" with configuration resource(s): "[ConfigResource{resourceName='/Users/Jinson/AnypointStudio/workspace36/.mule/apps/abc/abc.xml'}]"
+2019-11-17 07:33:33,302 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.launcher.application.DefaultMuleApplication - 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Starting app 'abc'                                       +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2019-11-17 07:33:33,359 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.util.queue.QueueXaResourceManager - Starting ResourceManager
+2019-11-17 07:33:33,359 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.util.queue.QueueXaResourceManager - Started ResourceManager
+2019-11-17 07:33:33,371 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.lifecycle.AbstractLifecycleManager - Starting model: _muleSystemModel
+2019-11-17 07:33:33,374 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.construct.FlowConstructLifecycleManager - Starting flow: abcFlow
+2019-11-17 07:33:33,375 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.processor.SedaStageLifecycleManager - Starting service: abcFlow.stage1
+2019-11-17 07:33:33,411 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.module.management.agent.WrapperManagerAgent - This JVM hasn't been launched by the wrapper, the agent will not run.
+2019-11-17 07:33:33,446 [Mule.app.deployer.monitor.1.thread.1] INFO  org.mule.DefaultMuleContext - 
+**********************************************************************
+* Application: abc                                                   *
+* OS encoding: /, Mule encoding: UTF-8                               *
+*                                                                    *
+* Agents Running:                                                    *
+*   Batch module default engine                                      *
+*   JMX Agent                                                        *
+*   Wrapper Manager                                                  *
+**********************************************************************
+2019-11-17 07:33:33,637 [main] INFO  org.mule.module.launcher.application.DefaultMuleApplication - 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Initializing app 'abc'                                   +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2019-11-17 07:33:33,869 [main] INFO  org.mule.lifecycle.AbstractLifecycleManager - Initialising RegistryBroker
+2019-11-17 07:33:34,052 [main] INFO  org.mule.module.extension.internal.manager.DefaultExtensionManager - Starting discovery of extensions
+2019-11-17 07:33:34,262 [main] INFO  org.mule.module.extension.internal.manager.DefaultExtensionManager - Discovered 1 extensions
+2019-11-17 07:33:34,262 [main] INFO  org.mule.module.extension.internal.manager.DefaultExtensionManager - Registering extension validation (version 3.9)
+2019-11-17 07:33:34,330 [main] INFO  org.mule.config.spring.MuleArtifactContext - Refreshing org.mule.config.spring.MuleArtifactContext@724f138e: startup date [Sun Nov 17 07:33:34 EST 2019]; root of context hierarchy
+2019-11-17 07:33:36,088 [main] INFO  org.mule.config.spring.processors.NoDevkitInjectorProcessor - JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2019-11-17 07:33:37,279 [main] WARN  org.mule.module.ognl.expression.OgnlExpressionEvaluator - OGNL module is deprecated and will be removed in Mule 4.0. Use MEL expressions instead.
+2019-11-17 07:33:37,516 [main] INFO  org.mule.util.journal.TransactionJournal - Using files for tx logs /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-tx-log/tx1.log and /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-tx-log/tx2.log
+2019-11-17 07:33:37,532 [main] INFO  org.mule.util.journal.TransactionJournal - Using files for tx logs /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-xa-tx-log/tx1.log and /Users/Jinson/AnypointStudio/workspace36/.mule/./.mule/abc/queue-xa-tx-log/tx2.log
+2019-11-17 07:33:37,776 [main] INFO  org.mule.lifecycle.AbstractLifecycleManager - Initialising model: _muleSystemModel
+2019-11-17 07:33:37,784 [main] INFO  org.mule.construct.FlowConstructLifecycleManager - Initialising flow: abcFlow
+2019-11-17 07:33:37,784 [main] INFO  org.mule.exception.DefaultMessagingExceptionStrategy - Initialising exception listener: org.mule.exception.DefaultMessagingExceptionStrategy@4db60246
+2019-11-17 07:33:37,814 [main] INFO  org.mule.processor.SedaStageLifecycleManager - Initialising service: abcFlow.stage1
+2019-11-17 07:33:38,380 [main] INFO  org.mule.config.spring.SpringXmlConfigurationBuilder - Configured Mule using "org.mule.config.spring.SpringXmlConfigurationBuilder" with configuration resource(s): "[ConfigResource{resourceName='/Users/Jinson/AnypointStudio/workspace36/.mule/apps/abc/abc.xml'}]"
+2019-11-17 07:33:38,381 [main] INFO  org.mule.config.builders.AutoConfigurationBuilder - Configured Mule using "org.mule.config.builders.AutoConfigurationBuilder" with configuration resource(s): "[ConfigResource{resourceName='/Users/Jinson/AnypointStudio/workspace36/.mule/apps/abc/abc.xml'}]"
+2019-11-17 07:33:38,383 [main] INFO  com.mulesoft.module.policies.lifecyle.GateKeeper - GateKeeper Mode: DISABLED
+2019-11-17 07:33:38,386 [main] INFO  org.mule.module.launcher.application.DefaultMuleApplication - 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ Starting app 'abc'                                       +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2019-11-17 07:33:38,576 [main] INFO  org.mule.util.queue.QueueXaResourceManager - Starting ResourceManager
+2019-11-17 07:33:38,576 [main] INFO  org.mule.util.queue.QueueXaResourceManager - Started ResourceManager
+2019-11-17 07:33:38,593 [main] INFO  org.mule.lifecycle.AbstractLifecycleManager - Starting model: _muleSystemModel
+2019-11-17 07:33:38,596 [main] INFO  org.mule.construct.FlowConstructLifecycleManager - Starting flow: abcFlow
+2019-11-17 07:33:38,597 [main] INFO  org.mule.processor.SedaStageLifecycleManager - Starting service: abcFlow.stage1
+2019-11-17 07:33:38,660 [main] INFO  org.mule.module.management.agent.WrapperManagerAgent - This JVM hasn't been launched by the wrapper, the agent will not run.
+2019-11-17 07:33:38,697 [main] INFO  org.mule.DefaultMuleContext - 
+**********************************************************************
+* Application: abc                                                   *
+* OS encoding: /, Mule encoding: UTF-8                               *
+*                                                                    *
+* Agents Running:                                                    *
+*   Batch module default engine                                      *
+*   JMX Agent                                                        *
+*   Wrapper Manager                                                  *
+**********************************************************************

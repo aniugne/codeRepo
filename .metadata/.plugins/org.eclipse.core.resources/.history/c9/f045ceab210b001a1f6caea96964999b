@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+
+	<flow name="DB_Customer_Insert">
+		<db:insert config-ref="MySQL_Configuration" doc:name="Insert_Customer">
+			<db:parameterized-query><![CDATA[insert into Customer
+				(firstName,lastName,dateOfBirth,gender,title) values
+				(:firstName,:lastName,:dateOfBirth,:gender,:title)]]>
+				</db:parameterized-query>
+			<db:in-param name="firstName" value="#[payload.customer.firstName]" />
+			<db:in-param name="lastName" value="#[payload.customer.lastName]" />
+			<db:in-param name="gender" value="#[payload.customer.gender]" />
+			<db:in-param name="dateOfBirth" value="#[payload.customer.dateOfBirth]" />
+			<db:in-param name="title" value="#[payload.customer.title]" />
+		</db:insert>
+		<db:select config-ref="MySQL_Configuration" doc:name="Database">
+			<db:dynamic-query><![CDATA[SELECT LAST_INSERT_ID();]]></db:dynamic-query>
+		</db:select>
+
+		<set-variable variableName="customerId"
+			value="#[payload.get(0).'LAST_INSERT_ID()']" doc:name="Variable" />
+		<logger level="INFO" doc:name="Logger"
+			message="The response from #[flow.name] is #[payload]" />
+	</flow>
+	
+	<flow name="DB_Customer_Get">
+		<set-variable variableName="dbResult" value="" doc:name="Variable" />
+		<db:select config-ref="MySQL_Configuration" doc:name="Select_Customer">
+			<db:parameterized-query><![CDATA[select * from Customer where id=:customerId]]>
+            </db:parameterized-query>
+			<db:in-param name="customerId" value="#[flowVars.customerId]"
+				type="INTEGER" />
+		</db:select>
+		<logger level="INFO" doc:name="Logger"
+			message="The response from #[flow.name] is #[payload]" />
+
+	</flow>
+	
+	<flow name="DB_Customer_Delete">
+		<set-variable variableName="dbResult" value="" doc:name="Variable" />
+		<db:delete config-ref="MySQL_Configuration" doc:name="Delete_Customer">
+            <db:parameterized-query><![CDATA[delete  from Customer where id=:customerId]]></db:parameterized-query>
+		</db:delete>
+		<logger level="INFO" doc:name="Logger"
+			message="The response from #[flow.name] is #[payload]" />
+
+	</flow>
+
+	<flow name="DB_Address_Insert">
+		<set-variable variableName="dbResult" value="" doc:name="Variable" />
+		<db:insert config-ref="MySQL_Configuration" doc:name="Insert_Customer">
+			<db:parameterized-query><![CDATA[insert into Address
+				(customerId,type,addressLine1,addressLine2,street,city,state,zipCode) values
+				(:customerId,:type,:addressLine1,:addressLine2,:street,:city,:state,:zipCode)]]>
+				</db:parameterized-query>
+			<db:in-param name="customerId" value="#[flowVars.customerId]" />
+			<db:in-param name="type" value="#[payload.type]" />
+			<db:in-param name="addressLine1" value="#[payload.addressLine1]" />
+			<db:in-param name="addressLine2" value="#[payload.addressLine2]" />
+			<db:in-param name="street" value="#[payload.street]" />
+			<db:in-param name="city" value="#[payload.city]" />
+			<db:in-param name="state" value="#[payload.state]" />
+			<db:in-param name="zipCode" value="#[payload.zipCode]" />
+		</db:insert>
+		<db:select config-ref="MySQL_Configuration" doc:name="Database">
+			<db:dynamic-query><![CDATA[SELECT LAST_INSERT_ID();]]></db:dynamic-query>
+		</db:select>
+
+		<set-payload value="#[payload.get(0).'LAST_INSERT_ID()']" doc:name="Set Payload"/>
+
+		<logger level="INFO" doc:name="Logger"
+			message="Inserted ADDRESSS with id: #[payload]" />
+	</flow>
+		<flow name="DB_Address_Get">
+		<set-variable variableName="dbResult" value="" doc:name="Variable" />
+		<db:select config-ref="MySQL_Configuration" doc:name="Select_Communication">
+			<db:parameterized-query><![CDATA[select * from Address where customerId=:customerId]]>
+            </db:parameterized-query>
+			<db:in-param name="customerId" value="#[flowVars.customerId]"
+				type="INTEGER" />
+		</db:select>
+		<logger level="INFO" doc:name="Logger"
+			message="The response from #[flow.name] is #[payload]" />
+	</flow>
+		<flow name="DB_Address_GetByType">
+		<set-variable variableName="dbResult" value="" doc:name="Variable" />
+		<db:select config-ref="MySQL_Configuration" doc:name="Select_Communication">
+			<db:parameterized-query><![CDATA[delete from Address where customerId=:customerId and type=:addressType]]>
+            </db:parameterized-query>
+			<db:in-param name="customerId" value="#[flowVars.customerId]"
+				type="INTEGER" />
+			<db:in-param name="addressType" value="#[flowVars.addressType]"
+				type="INTEGER" />
+		</db:select>
+		<logger level="INFO" doc:name="Logger"
+			message="The response from #[flow.name] is #[payload]" />
+	</flow>
+		<flow name="DB_Address_Delete">
+		<set-variable variableName="dbResult" value="" doc:name="Variable" />
+		<db:select config-ref="MySQL_Configuration" doc:name="Select_Communication">
+			<db:parameterized-query><![CDATA[delete from Address where customerId=:customerId and type=:addressType]]>
+            </db:parameterized-query>
+			<db:in-param name="customerId" value="#[flowVars.customerId]"
+				type="INTEGER" />
+			<db:in-param name="addressType" value="#[flowVars.addressType]"
+				type="INTEGER" />
+		</db:select>
+		<logger level="INFO" doc:name="Logger"
+			message="The response from #[flow.name] is #[payload]" />
+	</flow>
+
+	<flow name="DB_Communication_Insert">
+		<set-variable variableName="dbResult" value="" doc:name="Variable" />
+		<db:insert config-ref="MySQL_Configuration" doc:name="Insert_Customer">
+			<db:parameterized-query><![CDATA[insert into Communication
+				(customerId,type,value,preferred) values
+				(:customerId,:type,:value,:preferred)]]>
+				</db:parameterized-query>
+			<db:in-param name="customerId" value="#[flowVars.customerId]" />
+			<db:in-param name="type" value="#[payload.type]" />
+			<db:in-param name="value" value="#[payload.value]" />
+			<db:in-param name="preferred" value="#[payload.preferred]" />
+		</db:insert>
+		<db:select config-ref="MySQL_Configuration" doc:name="Database">
+			<db:dynamic-query><![CDATA[SELECT LAST_INSERT_ID();]]></db:dynamic-query>
+		</db:select>
+
+		<set-payload value="#[payload.get(0).'LAST_INSERT_ID()']" doc:name="Set Payload"/>
+
+		<logger level="INFO" doc:name="Logger"
+			message="Inserted CommunicationDetails with id:  #[payload]" />
+	</flow>
+
+
+	<flow name="DB_Communication_Get">
+		<set-variable variableName="dbResult" value="" doc:name="Variable" />
+		<db:select config-ref="MySQL_Configuration" doc:name="Select_Communication">
+			<db:parameterized-query><![CDATA[select * from Communication where customerId=:customerId]]>
+            </db:parameterized-query>
+			<db:in-param name="customerId" value="#[flowVars.customerId]"
+				type="INTEGER" />
+		</db:select>
+		<logger level="INFO" doc:name="Logger"
+			message="The response from #[flow.name] is #[payload]" />
+	</flow>
+
+
+
+
+</mule>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
+	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+
+	<flow name="WRK_getContact">
+		<byte-array-to-string-transformer
+			doc:name="Byte Array to Object" />
+		<json:object-to-json-transformer
+			doc:name="Object to JSON" />
+		<enricher source="payload.get(0)" target="#[flowVars.customer]"
+			doc:name="Message Enricher">
+			<flow-ref name="DB_Customer_Get" doc:name="DB_Customer_Get" />
+		</enricher>
+		<choice doc:name="Choice">
+			<when expression="#[flowVars.customer == empty]">
+				<logger
+					message="No Customer exists with customerId :#[flowVars.customerId] !!"
+					level="INFO" doc:name="Logger" />
+				<set-variable value="Validation Error" doc:name="Set Variable"
+					variableName="errorType" />
+				<set-variable
+					value="No Customer exists with customerId :#[flowVars.customerId] !!"
+					doc:name="Set Variable" variableName="errorMessage" />
+				<logger level="INFO" doc:name="Logger"
+					message="Validation Failed !! #[payload]" />
+				<set-property propertyName="http.status" value="#['404']"
+					doc:name="Property" />
+				<dw:transform-message doc:name="Transform Message">
+					<dw:set-payload resource="classpath:dataweave/errorResponse.dwl" />
+				</dw:transform-message>
+			</when>
+			<otherwise>
+				<enricher source="payload.get(0)" target="#[flowVars.communications]"
+					doc:name="Message Enricher">
+					<flow-ref name="DB_Communication_Get" doc:name="DB_Communication_Get" />
+				</enricher>
+				<enricher source="payload.get(0)" target="#[flowVars.addresses]"
+					doc:name="Message Enricher">
+					<flow-ref name="DB_Address_Get" doc:name="DB_Address_Get" />
+				</enricher>
+                <dw:transform-message doc:name="Transform Message">
+        			<dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	"Response": {
+		"appName": "contact-management-prc-api",
+		"api-method": "getContact",
+		"status": "success",
+		"payload": {
+			"Identification": {
+				"FirstName": flowVars.customer.firstName,
+				"LastName": flowVars.customer.lastName,
+				"DOB": flowVars.customer.dateOfBirth  as :date {format: "yyyy-MM-dd"}  as :date {format: "MM/dd/yyyy"}  as :string when flowVars.customer.dateOfBirth != null otherwise null,
+				"Gender": flowVars.customer.gender,
+				"Title": flowVars.customer.title
+			},
+			"Address": flowVars.addresses default [] map {
+				"type ": $.type,
+				"number": $.addressLine1,
+				"street": $.street,
+				"Unit": $.addressLine2,
+				"City": $.city,
+				"State": $.state,
+				"zipcode": $.zipCode
+			},
+			"Communication": flowVars.communications default [] map
+				{
+				"type": $.type,
+				"value": $.value,
+				"preferred": "true" when $.preferred ==1 otherwise false
+			}
+		}
+	}
+}
+]]></dw:set-payload>
+        		</dw:transform-message>
+                <set-property propertyName="http.status" value="#['200']" doc:name="Property"/>
+			</otherwise>
+		</choice>
+
+	</flow>
+	<flow name="WRK_addContact">
+		<byte-array-to-string-transformer
+			doc:name="Byte Array to Object" />
+		<json:object-to-json-transformer
+			doc:name="Object to JSON" />
+		<logger level="INFO" doc:name="Logger"
+			message="Incoming payload in #[flow.name] is #[payload]" />
+
+		<set-variable value="#[payload]" doc:name="Set Variable"
+			variableName="requestPayload" />
+
+		<set-variable variableName="schemaName" doc:name="Set Variable"
+			value="addContactRequest-schema.json" />
+
+		<component class="com.customer.validator.RequestValidator"
+			doc:name="RequestValidator" />
+		<choice doc:name="Choice">
+			<when expression="#[payload == 'empty' || payload == '']">
+				<logger level="INFO" doc:name="Logger" message="Schema validation successful." />
+				<set-payload value="#[flowVars.requestPayload]"
+					doc:name="Set Payload" mimeType="application/json" />
+				<dw:transform-message doc:name="Transform Message">
+					<dw:set-payload><![CDATA[%dw 1.0
+%input payload application/json
+%output application/json
+---
+{
+	"customer": {
+		"firstName": payload.Identification.FirstName,
+		"lastName": payload.Identification.LastName,
+		"dateOfBirth": payload.Identification.DOB  as :date {format: "MM/dd/yyyy"}  as :date {format: "yyyy-MM-dd"}  as :string,
+		"gender": payload.Identification.Gender,
+		"title": payload.Identification.Title
+	},
+	"addresses":  payload.Address default []  map ((address, index) -> {
+		"type": address.'type',
+		"addressLine1": address.number,
+		"addressLine2":address.Unit,
+		"street": address.street,
+		"city": address.City,
+		"state": address.State,
+		"zipCode": address.zipcode
+	}),
+	"communications":  payload.Communication default [] map ((communication,index) ->{
+			"type": communication.'type',
+			"value": communication.value,
+	  		"preferred" : 1 when communication.preferred == "true" otherwise 0
+		})
+}]]></dw:set-payload>
+				</dw:transform-message>
+				<logger level="INFO" doc:name="Logger"
+					message="The transformed p[ayload is :#[payload]" />
+				<json:json-to-object-transformer
+					returnClass="java.util.Map" doc:name="JSON to Object" />
+				<set-variable value="#[payload]" doc:name="Set Variable"
+					variableName="requestCanon" />
+                <set-payload value="#[flowVars.requestCanon]" doc:name="Set Payload"/>
+				<transactional action="ALWAYS_BEGIN" doc:name="Transactional">
+					<flow-ref name="DB_Customer_Insert" doc:name="DB_Customer_Insert" />
+					<foreach collection="#[flowVars.requestCanon.addresses]"
+						doc:name="For Each">
+						<flow-ref name="DB_Address_Insert" doc:name="DB_Adress_Insert" />
+					</foreach>
+					<foreach collection="#[flowVars.requestCanon.communications]"
+						doc:name="For Each">
+						<flow-ref name="DB_Communication_Insert" doc:name="DB_Communication_Insert" />
+					</foreach>
+				</transactional>
+				<dw:transform-message doc:name="Transform Message">
+					<dw:input-payload doc:sample="sample_data/json.json" />
+					<dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+{
+	Response: {
+		appName: "contact-management-prc-api",
+		"api-method": "addContact",
+		status: "success",
+		payload: {
+			customerId: flowVars.customerId,
+			correlationId: "afw333-h78gbj-kjhs78",
+			message: "Contact added successfully."
+		}
+	}
+}]]></dw:set-payload>
+				</dw:transform-message>
+			</when>
+			<otherwise>
+				<set-variable value="Validation Error" doc:name="Set Variable"
+					variableName="errorType" />
+				<set-variable value="#[payload]" doc:name="Set Variable"
+					variableName="errorMessage" />
+				<logger level="INFO" doc:name="Logger"
+					message="Validation Failed !! #[payload]" />
+				<dw:transform-message doc:name="Transform Message">
+					<dw:set-payload resource="classpath:dataweave/errorResponse.dwl" />
+				</dw:transform-message>
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="Logger"
+			message="The response from #[flow.name] is #[payload]" />
+	</flow>
+</mule>

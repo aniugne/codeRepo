@@ -1,0 +1,61 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": [
+    "object",
+    "null"
+  ],
+  "properties": {
+    "type": {
+      "$id": "#/properties/type",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "number": {
+      "$id": "#/properties/number",
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "street": {
+      "$id": "#/properties/street",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "Unit": {
+      "$id": "#/properties/Unit",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "City": {
+      "$id": "#/properties/City",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "State": {
+      "$id": "#/properties/State",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "zipcode": {
+      "$id": "#/properties/zipcode",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9]{1,6}*$"
+    }
+  }
+}

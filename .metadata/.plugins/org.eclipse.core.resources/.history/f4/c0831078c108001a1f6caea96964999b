@@ -1,0 +1,5 @@
+#Sat Nov 16 17:35:50 EST 2019
+encoding=UTF-8
+domain=default
+redeployment.enabled=true
+config.resources=api.xml

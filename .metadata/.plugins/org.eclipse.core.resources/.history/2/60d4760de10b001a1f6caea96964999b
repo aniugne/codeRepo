@@ -1,0 +1,22 @@
+#Temporary index for unavailable sources and javadocs
+#Wed Nov 20 16:59:15 EST 2019
+commons-validator\:commons-validator\:1.5.1\:javadoc=true
+commons-logging\:commons-logging\:1.2\:javadoc=true
+org.everit.json\:org.everit.json.schema\:1.5.1\:javadoc=true
+com.google.guava\:guava\:19.0\:sources=true
+commons-beanutils\:commons-beanutils\:1.9.2\:javadoc=true
+com.google.protobuf\:protobuf-java\:3.6.1\:javadoc=true
+org.json\:json\:20160810\:sources=true
+commons-digester\:commons-digester\:1.8.1\:sources=true
+com.google.guava\:guava\:19.0\:javadoc=true
+mysql\:mysql-connector-java\:8.0.18\:sources=true
+org.json\:json\:20160810\:javadoc=true
+commons-digester\:commons-digester\:1.8.1\:javadoc=true
+org.everit.json\:org.everit.json.schema\:1.5.1\:sources=true
+mysql\:mysql-connector-java\:8.0.18\:javadoc=true
+commons-collections\:commons-collections\:3.2.2\:sources=true
+commons-validator\:commons-validator\:1.5.1\:sources=true
+commons-logging\:commons-logging\:1.2\:sources=true
+commons-collections\:commons-collections\:3.2.2\:javadoc=true
+commons-beanutils\:commons-beanutils\:1.9.2\:sources=true
+com.google.protobuf\:protobuf-java\:3.6.1\:sources=true

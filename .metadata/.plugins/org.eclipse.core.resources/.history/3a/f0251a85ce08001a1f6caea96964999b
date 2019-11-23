@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:core="http://www.mulesoft.org/schema/mule/core"
+	xmlns:java="http://www.mulesoft.org/schema/mule/java" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
+	http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd">
+	<flow name="WRK_addContact" doc:id="a10b5156-66be-4298-a1e5-7bb5d5f618b6">
+		<logger level="INFO" doc:name="Logger"
+			doc:id="5eb15d5c-013c-426c-9177-065d5dbe20f3" message="Incoming payload in #[flow.name] is #[payload]" />
+
+		<set-variable value="#[payload]" doc:name="Set Variable"
+			doc:id="b197d9bb-6b49-4d74-a4d1-2620c65343ee" variableName="requestPayload" />
+		<set-payload
+			value="#[output text/plain --- write(payload, 'application/json')]"
+			doc:name="Set Payload" doc:id="b4afd4c8-5d6b-4a2e-bb33-855a651a53b1" />
+
+		<java:invoke-static doc:name="Invoke static"
+			class="com.customer.validator.RequestValidator" method='validate(String,String)'>
+			<java:args><![CDATA[#[{
+        arg0: payload as String ,
+        arg1:'addContactRequest-schema.json'
+    }]]]></java:args>
+		</java:invoke-static>
+		<choice doc:name="Choice" doc:id="118db6ca-2afe-4398-af59-ce6706963599">
+			<when expression="#[payload == 'empty' or payload ==&quot;&quot;]">
+				<logger level="INFO" doc:name="Logger"
+					doc:id="c2fb5b8e-0cec-44fc-9961-1d0a5bf8faef" message="Schema validation successful." />
+				<set-payload value="#[flowVars.requestPayload]"
+					doc:name="Set Payload" doc:id="9ca870b5-bb70-4e9b-8936-54e4e28b9c71" />
+				<dw:transform doc:name="Transform to Canonical"
+					doc:id="8cf3de9c-d412-4df1-bdf3-2c72e85f73dd">
+					<dw:message>
+						<dw:set-payload><![CDATA[%dw 1.0
+output application/json
+---
+{
+	"customer": {
+		"firstName": payload.Identification.FirstName,
+		"lastName": payload.Identification.LastName,
+		"dateOfBirth": payload.Identification.DOB,
+		"gender": payload.Identification.Gender,
+		"title": payload.Identification.Title
+	},
+	"addresses":  payload.Address default []  map ((address, index) -> {
+		"type": address.'type',
+		"addressLine1": address.number,
+		"addressLine2":address.Unit,
+		"street": address.street,
+		"city": address.City,
+		"state": address.State,
+		"zipCode": address.zipcode
+	}),
+	"communication":  payload.Communication default [] map ((communication,index) ->{
+			"type": communication.'type',
+			"value": communication.value,
+	  		"preferred" : communication.preferred
+		})
+}]]></dw:set-payload>
+					</dw:message>
+				</dw:transform>
+				<logger level="INFO" doc:name="Logger"
+					doc:id="1ccb8982-8336-4171-b344-621c7ba81396" message="The transformed p[ayload is :#[payload]" />
+
+
+				<dw:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+					xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+					doc:id="e67d7766-4845-4000-9397-fc60ec627608">
+					<dw:message>
+						<dw:set-payload><![CDATA[%dw 1.0
+output application/json
+---
+{
+  Response: {
+    appName: "contact-management-prc-api",
+    "api-method": "addContact",
+    status: "success",
+    payload: {
+      customerId: 656522,
+      correlationId: "afw333-h78gbj-kjhs78",
+      message: "Contact added successfully."
+    }
+  }
+}]]></dw:set-payload>
+					</dw:message>
+				</dw:transform>
+				<flow-ref doc:name="Flow Reference" doc:id="8b286a24-07f1-4acf-8855-606f303efbe0"
+					name="DB_Customer_Insert" target="dbOutput" />
+			</when>
+			<otherwise>
+				<set-variable value="Validation Error" doc:name="Set Variable"
+					doc:id="bb472c5d-38e6-4655-9b5f-46cfa8c126ed" variableName="errorType" />
+				<set-variable value="#[payload]" doc:name="Set Variable"
+					doc:id="0c963252-fbe3-48f6-802e-5e0013b5fb5d" variableName="errorMessage" />
+				<logger level="INFO" doc:name="Logger"
+					doc:id="3aa111b7-0fc6-4b82-ae1c-34447957b87b" message="Validation Failed !! #[payload]" />
+				<dw:transform doc:name="Build Error Response"
+					doc:id="678caa30-affa-44f7-b434-dfd0e1e9fd33">
+					<dw:message>
+						<dw:set-payload><![CDATA[%dw 1.0
+output application/json 
+---
+{
+	"Response": {
+		"appName": "contact-management-prc-api",
+		"api-method": flow.name,
+		"status": "error",
+		"error": {
+			"correlationId": flowVars.correlationId,
+			"type": flowVars.errorType,
+			"message": flowVars.errorMessage
+		}
+	}
+}
+]]></dw:set-payload>
+					</dw:message>
+				</dw:transform>
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="Logger"
+			doc:id="088a7e1e-2edc-4128-ba3c-49fd18ca3b3a" message="The response from #[flow.name] is #[payload]" />
+	</flow>
+</mule>

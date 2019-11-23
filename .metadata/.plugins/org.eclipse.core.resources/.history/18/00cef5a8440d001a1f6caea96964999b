@@ -1,0 +1,99 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "properties": {
+    "Identification": {
+      "$id": "#/properties/Identification",
+      "type": "object",
+      "properties": {
+        "FirstName": {
+          "$id": "#/properties/Identification/properties/FirstName",
+          "type": "string"
+        },
+        "LastName": {
+          "$id": "#/properties/Identification/properties/LastName",
+          "type": "string"
+        },
+        "DOB": {
+          "$id": "#/properties/Identification/properties/DOB",
+          "type": "string",
+          "pattern" :"(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\\d\\d"
+        },
+        "Gender": {
+          "$id": "#/properties/Identification/properties/Gender",
+          "type": "string",
+          "enum":["M","F"]
+        },
+        "Title": {
+          "$id": "#/properties/Identification/properties/Title",
+          "type": "string",
+          "enum" :["Manager","Director","VP","Engineer"]
+        }
+      }
+    },
+    "Address": {
+      "$id": "#/properties/Address",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$id": "#/properties/Address/items",
+        "type": "object",
+        "properties": {
+          "type ": {
+            "$id": "#/properties/Address/items/properties/type ",
+            "type": "string"
+          },
+          "number": {
+            "$id": "#/properties/Address/items/properties/number",
+            "type": "number"
+          },
+          "street": {
+            "$id": "#/properties/Address/items/properties/street",
+            "type": ["string","null"]
+          },
+          "Unit": {
+            "$id": "#/properties/Address/items/properties/Unit",
+            "type":  ["string","null"]
+          },
+          "City": {
+            "$id": "#/properties/Address/items/properties/City",
+            "type": "string"
+          },
+          "State": {
+            "$id": "#/properties/Address/items/properties/State",
+            "type": "string"
+          },
+          "zipcode": {
+            "$id": "#/properties/Address/items/properties/zipcode",
+            "type": "string",
+            "pattern":"^[0-9]{5}$"
+          }
+        }
+      }
+    },
+    "Communication": {
+      "$id": "#/properties/Communication",
+      "type": "array",
+      "items": {
+        "$id": "#/properties/Communication/items",
+        "type": "object",
+        "properties": {
+          "type": {
+            "$id": "#/properties/Communication/items/properties/type",
+            "type": "string"
+          },
+          "value": {
+            "$id": "#/properties/Communication/items/properties/value",
+            "type": "string"
+          },
+          "preferred": {
+            "$id": "#/properties/Communication/items/properties/preferred",
+            "type": ["string","null"]
+          }
+        }
+      }
+    }
+  }
+}

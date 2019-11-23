@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+    <http:listener-config name="api-httpListenerConfig" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration" />
+    <apikit:config name="api-config" raml="api.raml" consoleEnabled="false" doc:name="Router" />
+    <flow name="api-main">
+        <http:listener config-ref="api-httpListenerConfig" path="/api/*" doc:name="HTTP" />
+        <apikit:router config-ref="api-config" doc:name="APIkit Router" />
+        <exception-strategy ref="api-apiKitGlobalExceptionMapping" doc:name="Reference Exception Strategy" />
+    </flow>
+    <flow name="api-console">
+        <http:listener config-ref="api-httpListenerConfig" path="/console/*" doc:name="HTTP" />
+        <apikit:console config-ref="api-config" doc:name="APIkit Console" />
+    </flow>
+    <flow name="get:/contact/{customerId}:api-config">
+        <set-variable variableName="customerId" value="#[message.inboundProperties.'http.uri.params'.customerId]" doc:name="Variable" />
+        <logger message="The customerId is #[flowVars.customerId]" level="INFO" doc:name="Logger" />
+        <flow-ref name="WRK_getContact" doc:name="Flow Reference" />
+    </flow>
+    <flow name="post:/contact:api-config">
+        <flow-ref name="WRK_addContact" doc:name="Flow Reference" />
+    </flow>
+    <flow name="put:/contacts/addresses/{addressType}:api-config">
+        <set-payload value="{&#xA;&#x9;&quot;Response&quot;: {&#xA;&#x9;&#x9;&quot;appName&quot;: &quot;contact-management-prc-api&quot;,&#xA;&#x9;&#x9;&quot;api-method&quot;: &quot;addAdrress&quot;,&#xA;&#x9;&#x9;&quot;status&quot;: &quot;success&quot;,&#xA;&#x9;&#x9;&quot;payload&quot;: {&#xA;&#x9;&#x9;&#x9;&quot;customerId&quot;: 656522,&#xA;&#x9;&#x9;&#x9;&quot;correlationId&quot;:&quot;afw333-h78gbj-kjhs78&quot;,&#xA;&#x9;&#x9;&#x9;&quot;message&quot;: &quot;Contact added successfully.&quot;&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}" />
+    </flow>
+    <flow name="put:/contacts/communicationes/{communicationType}:api-config">
+        <set-payload value="{&#xA;&#x9;&quot;Response&quot;: {&#xA;&#x9;&#x9;&quot;appName&quot;: &quot;contact-management-prc-api&quot;,&#xA;&#x9;&#x9;&quot;api-method&quot;: &quot;addContact&quot;,&#xA;&#x9;&#x9;&quot;status&quot;: &quot;success&quot;,&#xA;&#x9;&#x9;&quot;payload&quot;: {&#xA;&#x9;&#x9;&#x9;&quot;customerId&quot;: 656522,&#xA;&#x9;&#x9;&#x9;&quot;correlationId&quot;:&quot;afw333-h78gbj-kjhs78&quot;,&#xA;&#x9;&#x9;&#x9;&quot;message&quot;: &quot;Communication updated successfully.&quot;&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}" />
+    </flow>
+    <flow name="put:/contacts/{customerId}:api-config">
+        <set-payload value="{&#xA;&#x9;&quot;Response&quot;: {&#xA;&#x9;&#x9;&quot;appName&quot;: &quot;contact-management-prc-api&quot;,&#xA;&#x9;&#x9;&quot;api-method&quot;: &quot;addContact&quot;,&#xA;&#x9;&#x9;&quot;status&quot;: &quot;success&quot;,&#xA;&#x9;&#x9;&quot;payload&quot;: {&#xA;&#x9;&#x9;&#x9;&quot;customerId&quot;: 656522,&#xA;&#x9;&#x9;&#x9;&quot;correlationId&quot;:&quot;afw333-h78gbj-kjhs78&quot;,&#xA;&#x9;&#x9;&#x9;&quot;message&quot;: &quot;Contact added successfully.&quot;&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}" />
+    </flow>
+    <flow name="delete:/contacts/addresses/{addressType}:api-config">
+        <set-payload value="{&#xA;&#x9;&quot;Response&quot;: {&#xA;&#x9;&#x9;&quot;appName&quot;: &quot;contact-management-prc-api&quot;,&#xA;&#x9;&#x9;&quot;api-method&quot;: &quot;deleteAddress&quot;,&#xA;&#x9;&#x9;&quot;status&quot;: &quot;success&quot;,&#xA;&#x9;&#x9;&quot;payload&quot;: {&#xA;&#x9;&#x9;&#x9;&quot;customerId&quot;: 656522,&#xA;&#x9;&#x9;&#x9;&quot;correlationId&quot;:&quot;afw333-h78gbj-kjhs78&quot;,&#xA;&#x9;&#x9;&#x9;&quot;message&quot;: &quot;Address deleted successfully.&quot;&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}" />
+    </flow>
+    <flow name="delete:/contacts/communicationes/{communicationType}:api-config">
+        <set-payload value="{&#xA;&#x9;&quot;Response&quot;: {&#xA;&#x9;&#x9;&quot;appName&quot;: &quot;contact-management-prc-api&quot;,&#xA;&#x9;&#x9;&quot;api-method&quot;: &quot;deleteContact&quot;,&#xA;&#x9;&#x9;&quot;status&quot;: &quot;success&quot;,&#xA;&#x9;&#x9;&quot;payload&quot;: {&#xA;&#x9;&#x9;&#x9;&quot;customerId&quot;: 656522,&#xA;&#x9;&#x9;&#x9;&quot;correlationId&quot;:&quot;afw333-h78gbj-kjhs78&quot;,&#xA;&#x9;&#x9;&#x9;&quot;message&quot;: &quot;Communication deleted successfully.&quot;&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}" />
+    </flow>
+    <flow name="delete:/contacts/{customerId}:api-config">
+        <set-payload value="{&#xA;&#x9;&quot;Response&quot;: {&#xA;&#x9;&#x9;&quot;appName&quot;: &quot;contact-management-prc-api&quot;,&#xA;&#x9;&#x9;&quot;api-method&quot;: &quot;deleteContact&quot;,&#xA;&#x9;&#x9;&quot;status&quot;: &quot;success&quot;,&#xA;&#x9;&#x9;&quot;payload&quot;: {&#xA;&#x9;&#x9;&#x9;&quot;customerId&quot;: 656522,&#xA;&#x9;&#x9;&#x9;&quot;correlationId&quot;:&quot;afw333-h78gbj-kjhs78&quot;,&#xA;&#x9;&#x9;&#x9;&quot;message&quot;: &quot;Contact deleted successfully.&quot;&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}" />
+    </flow>
+    <flow name="get:/contacts/addresses/{addressType}:api-config">
+        <set-payload value="{&#xA;&#x9;&quot;Response&quot;: {&#xA;&#x9;&#x9;&quot;appName&quot;: &quot;contact-management-prc-api&quot;,&#xA;&#x9;&#x9;&quot;api-method&quot;: &quot;getAddress&quot;,&#xA;&#x9;&#x9;&quot;status&quot;: &quot;success&quot;,&#xA;&#x9;&#x9;&quot;payload&quot;: {&#xA;&#x9;&#x9;&#x9;&quot;type &quot;: &quot;home&quot;,&#xA;&#x9;&#x9;&#x9;&quot;number&quot;: 1234,&#xA;&#x9;&#x9;&#x9;&quot;street&quot;: &quot;blah blah St&quot;,&#xA;&#x9;&#x9;&#x9;&quot;Unit&quot;: &quot;1 a&quot;,&#xA;&#x9;&#x9;&#x9;&quot;City&quot;: &quot;Somewhere&quot;,&#xA;&#x9;&#x9;&#x9;&quot;State&quot;: &quot;WV&quot;,&#xA;&#x9;&#x9;&#x9;&quot;zipcode&quot;: &quot;12345&quot;&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}" />
+    </flow>
+    <flow name="get:/contacts/communicationes/{communicationType}:api-config">
+        <set-payload value="{&#xA;&#x9;&quot;Response&quot;: {&#xA;&#x9;&#x9;&quot;appName&quot;: &quot;contact-management-prc-api&quot;,&#xA;&#x9;&#x9;&quot;api-method&quot;: &quot;getCommunication&quot;,&#xA;&#x9;&#x9;&quot;status&quot;: &quot;success&quot;,&#xA;&#x9;&#x9;&quot;payload&quot;: {&#xA;&#x9;&#x9;&#x9;&quot;type&quot;: &quot;email&quot;,&#xA;&#x9;&#x9;&#x9;&quot;value&quot;: &quot;bfe@sample.com&quot;,&#xA;&#x9;&#x9;&#x9;&quot;preferred&quot;: &quot;true&quot;&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}" />
+    </flow>
+    <flow name="get:/contacts/{customerId}:api-config">
+        <set-payload value="{&#xA;&#x9;&quot;Response&quot;: {&#xA;&#x9;&#x9;&quot;appName&quot;: &quot;contact-management-prc-api&quot;,&#xA;&#x9;&#x9;&quot;api-method&quot;: &quot;addContact&quot;,&#xA;&#x9;&#x9;&quot;status&quot;: &quot;success&quot;,&#xA;&#x9;&#x9;&quot;payload&quot;: {&#xA;&#x9;&#x9;&#x9;&quot;Identification&quot;: {&#xA;&#x9;&#x9;&#x9;&#x9;&quot;FirstName&quot;: &quot;Bob&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&quot;LastName&quot;: &quot;Frederick&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&quot;DOB&quot;: &quot;06/21/1980&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&quot;Gender&quot;: &quot;M&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&quot;Title&quot;: &quot;Manager&quot;&#xA;&#x9;&#x9;&#x9;},&#xA;&#x9;&#x9;&#x9;&quot;Address&quot;: [&#xA;&#x9;&#x9;&#x9;&#x9;{&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;type &quot;: &quot;home&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;number&quot;: 1234,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;street&quot;: &quot;blah blah St&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;Unit&quot;: &quot;1 a&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;City&quot;: &quot;Somewhere&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;State&quot;: &quot;WV&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;zipcode&quot;: &quot;12345&quot;&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;],&#xA;&#x9;&#x9;&#x9;&quot;Communication&quot;: [&#xA;&#x9;&#x9;&#x9;&#x9;{&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;type&quot;: &quot;email&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;value&quot;: &quot;bfe@sample.com&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;preferred&quot;: &quot;true&quot;&#xA;&#x9;&#x9;&#x9;&#x9;},&#xA;&#x9;&#x9;&#x9;&#x9;{&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;type&quot;: &quot;cell&quot;,&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&quot;value&quot;: &quot;304-555-8282&quot;&#xA;&#x9;&#x9;&#x9;&#x9;}&#xA;&#x9;&#x9;&#x9;]&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}" />
+    </flow>
+    <flow name="post:/contacts/addresses:api-config">
+        <set-payload value="{&#xA;&#x9;&quot;Response&quot;: {&#xA;&#x9;&#x9;&quot;appName&quot;: &quot;contact-management-prc-api&quot;,&#xA;&#x9;&#x9;&quot;api-method&quot;: &quot;addAddress&quot;,&#xA;&#x9;&#x9;&quot;status&quot;: &quot;success&quot;,&#xA;&#x9;&#x9;&quot;payload&quot;: {&#xA;&#x9;&#x9;&#x9;&quot;customerId&quot;: 656522,&#xA;&#x9;&#x9;&#x9;&quot;correlationId&quot;:&quot;afw333-h78gbj-kjhs78&quot;,&#xA;&#x9;&#x9;&#x9;&quot;message&quot;: &quot;Address added successfully.&quot;&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}" />
+    </flow>
+    <flow name="post:/contacts/communicationes:api-config">
+        <set-payload value="{&#xA;&#x9;&quot;Response&quot;: {&#xA;&#x9;&#x9;&quot;appName&quot;: &quot;contact-management-prc-api&quot;,&#xA;&#x9;&#x9;&quot;api-method&quot;: &quot;addCommunication&quot;,&#xA;&#x9;&#x9;&quot;status&quot;: &quot;success&quot;,&#xA;&#x9;&#x9;&quot;payload&quot;: {&#xA;&#x9;&#x9;&#x9;&quot;customerId&quot;: 656522,&#xA;&#x9;&#x9;&#x9;&quot;correlationId&quot;:&quot;afw333-h78gbj-kjhs78&quot;,&#xA;&#x9;&#x9;&#x9;&quot;message&quot;: &quot;Communication added successfully.&quot;&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}" />
+    </flow>
+    <flow name="post:/contacts:api-config">
+        <set-payload value="{&#xA;&#x9;&quot;Response&quot;: {&#xA;&#x9;&#x9;&quot;appName&quot;: &quot;contact-management-prc-api&quot;,&#xA;&#x9;&#x9;&quot;api-method&quot;: &quot;addContact&quot;,&#xA;&#x9;&#x9;&quot;status&quot;: &quot;success&quot;,&#xA;&#x9;&#x9;&quot;payload&quot;: {&#xA;&#x9;&#x9;&#x9;&quot;customerId&quot;: 656522,&#xA;&#x9;&#x9;&#x9;&quot;correlationId&quot;:&quot;afw333-h78gbj-kjhs78&quot;,&#xA;&#x9;&#x9;&#x9;&quot;message&quot;: &quot;Contact added successfully.&quot;&#xA;&#x9;&#x9;}&#xA;&#x9;}&#xA;}" />
+    </flow>
+    <apikit:mapping-exception-strategy name="api-apiKitGlobalExceptionMapping">
+        <apikit:mapping statusCode="404">
+            <apikit:exception value="org.mule.module.apikit.exception.NotFoundException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property" />
+            <set-payload value="{ &quot;message&quot;: &quot;Resource not found&quot; }" doc:name="Set Payload" />
+        </apikit:mapping>
+        <apikit:mapping statusCode="405">
+            <apikit:exception value="org.mule.module.apikit.exception.MethodNotAllowedException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property" />
+            <set-payload value="{ &quot;message&quot;: &quot;Method not allowed&quot; }" doc:name="Set Payload" />
+        </apikit:mapping>
+        <apikit:mapping statusCode="415">
+            <apikit:exception value="org.mule.module.apikit.exception.UnsupportedMediaTypeException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property" />
+            <set-payload value="{ &quot;message&quot;: &quot;Unsupported media type&quot; }" doc:name="Set Payload" />
+        </apikit:mapping>
+        <apikit:mapping statusCode="406">
+            <apikit:exception value="org.mule.module.apikit.exception.NotAcceptableException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property" />
+            <set-payload value="{ &quot;message&quot;: &quot;Not acceptable&quot; }" doc:name="Set Payload" />
+        </apikit:mapping>
+        <apikit:mapping statusCode="400">
+            <apikit:exception value="org.mule.module.apikit.exception.BadRequestException" />
+            <set-property propertyName="Content-Type" value="application/json" doc:name="Property" />
+            <set-payload value="{ &quot;message&quot;: &quot;Bad request&quot; }" doc:name="Set Payload" />
+        </apikit:mapping>
+    </apikit:mapping-exception-strategy>
+</mule>

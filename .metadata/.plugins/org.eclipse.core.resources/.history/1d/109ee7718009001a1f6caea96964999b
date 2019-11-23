@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+
+	<flow name="DB_Customer_Insert">
+		<set-variable variableName="dbResult" value="" doc:name="Variable" />
+		<json:json-to-object-transformer
+			returnClass="java.util.Map" doc:name="JSON to Object" />
+		<db:insert config-ref="MySQL_Configuration" doc:name="Insert_Customer">
+			<db:parameterized-query><![CDATA[insert into Customer
+				(firstName,lastName,dateOfBirth,gender,title) values
+				(:firstName,:lastName,:dateOfBirth,:gender,:title)]]>
+				</db:parameterized-query>
+			<db:in-param name="firstName" value="#[payload.customer.firstName]" />
+			<db:in-param name="lastName" value="#[payload.customer.lastName]" />
+			<db:in-param name="gender" value="#[payload.customer.gender]" />
+			<db:in-param name="dateOfBirth" value="#[payload.customer.dateOfBirth]" />
+			<db:in-param name="title" value="#[payload.customer.title]" />
+		</db:insert>
+		<logger level="INFO" doc:name="Logger"
+			message="The response from #[flow.name] is #[payload]" />
+	</flow>
+	
+	<flow name="DB_Customer_Get">
+		<set-variable variableName="dbResult" value="" doc:name="Variable" />
+		<json:json-to-object-transformer
+			returnClass="java.util.Map" doc:name="JSON to Object" />
+		<db:select config-ref="MySQL_Configuration" target="#[dbResult]"
+			doc:name="Select_Customer">
+			<db:parameterized-query><![CDATA[select * from Customer where id=:customerId]]>
+            </db:parameterized-query>
+			<db:in-param name="customerId" value="1" type="INTEGER" />
+		</db:select>
+		<logger level="INFO" doc:name="Logger"
+			message="The response from #[flow.name] is #[flowVars.dbResult]" />
+
+	</flow>
+
+
+</mule>

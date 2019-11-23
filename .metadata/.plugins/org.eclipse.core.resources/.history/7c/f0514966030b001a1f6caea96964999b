@@ -1,0 +1,15 @@
+%dw 1.0
+%output application/java
+---
+{
+	"Response": {
+		"appName": "contact-management-prc-api",
+		"api-method": flowVars.apiMethod,
+		"status": "error",
+		"error": {
+			"correlationId": flowVars.correlationId,
+			"type": flowVars.errorType,
+			"message": flowVars.errorMessage
+		}
+	}
+}

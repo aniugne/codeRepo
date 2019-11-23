@@ -1,0 +1,13 @@
+{
+	"Response": {
+		"appName": "contact-management-prc-api",
+		"api-method": "addContact",
+		"status": "success",
+		"payload": {
+			"type": "email",
+			"value": "bfe@sample.com",
+			"preferred": "true"
+		}
+	}
+}
+

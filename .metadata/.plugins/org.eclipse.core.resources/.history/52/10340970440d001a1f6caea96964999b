@@ -1,0 +1,29 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "properties": {
+      "$id": "#/properties/Communication",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$id": "#/properties/Communication/items",
+        "type": "object",
+        "properties": {
+          "type": {
+            "$id": "#/properties/Communication/items/properties/type",
+            "type": "string"
+          },
+          "value": {
+            "$id": "#/properties/Communication/items/properties/value",
+            "type": "string"
+          },
+          "preferred": {
+            "$id": "#/properties/Communication/items/properties/preferred",
+            "type": ["string","null"]
+          }
+        }
+      }
+    }
+  }
