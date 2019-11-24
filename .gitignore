@@ -7,8 +7,8 @@
 *.o
 *.so
 .classpath
-.settings
-catalog
+.settings/
+catalog/
 
 # Packages #
 ############
