@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<choice-exception-strategy name="global_Exception_Strategy">
+		<catch-exception-strategy logException="true" enableNotifications="true"
+			doc:name="Catch Exception Strategy">
+			<logger message="#[exception.message]" level="INFO" doc:name="Logger" />
+			<set-property propertyName="http.status" value="#['500']"
+				doc:name="Property" />
+			<set-variable value="Internal Server Error" doc:name="Set Variable"
+				variableName="errorType" />
+			<set-variable value="#[exception.message]" doc:name="Set Variable"
+				variableName="errorMessage" />
+				<dw:transform-message doc:name="Transform Message">
+				<dw:set-payload resource="classpath:dataweave/errorResponse.dwl" />
+			</dw:transform-message>
+		</catch-exception-strategy>
+	</choice-exception-strategy>
+</mule>
