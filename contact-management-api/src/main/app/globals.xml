@@ -8,7 +8,7 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
 
-	<db:mysql-config name="MySQL_Configuration" host="localhost" 
-		port="3306" user="anila" password="password" database="CONTACT_MANAGEMENT"
+	<db:mysql-config name="MySQL_Configuration" host="${db.host}" 
+		port="${db.port}" user="${db.user}" password="${db.password}" database="${db.databaseName}"
 		doc:name="MySQL Configuration" />
 </mule>

@@ -1,0 +1,7 @@
+##FROM rfpereira/mule-ce:latest
+
+FROM wslph/mule:3.9.3-ee
+
+COPY ./target/contact-management-api*.zip /opt/mule/apps/ 
+
+CMD [ "/opt/mule/bin/mule"]
